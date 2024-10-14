@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: java-demo
+    k8s.kuboard.cn/layer: web
+    k8s.kuboard.cn/name: demo
+  name: demo
+  namespace: java-demo
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: java-demo
+      k8s.kuboard.cn/layer: web
+      k8s.kuboard.cn/name: demo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: java-demo
+        k8s.kuboard.cn/layer: web
+        k8s.kuboard.cn/name: demo
+    spec:
+      containers:
+      - image: harbor.peopleurl.cn/java-demo/demo01:20241014-100140-207a47c-demo01
+        imagePullPolicy: IfNotPresent
+        name: java-demo
+        ports:
+        - containerPort: 8080
+          name: web
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 500m
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: harbor-registry-secret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

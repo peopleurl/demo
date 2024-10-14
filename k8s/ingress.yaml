@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  namespace: java-demo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: test.peopleurl.cn
+    http:
+      paths:
+      - backend:
+          service:
+            name: demo
+            port:
+              name: aitkdb
+        path: /
+        pathType: Prefix
+  tls: # 注意 K8S已经设置默认的 https 证书
+  - hosts:
+    - test.peopleurl.cn
