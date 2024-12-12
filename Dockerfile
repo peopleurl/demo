@@ -1,4 +1,4 @@
-FROM harbor.peopleurl.cn/library/maven:3.9.9
+FROM harbor.deployers.cn/library/maven:3.9.9
 
 WORKDIR /app
 
