@@ -86,7 +86,7 @@ spec:
           readOnly: false  
   imagePullSecrets:
   - name: harbor-login-auth    
-  restartPolicy: "Never"
+  restartPolicy: "Always"
   volumes:
     - hostPath:
         path: "/etc/localtime"
