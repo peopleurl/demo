@@ -5,7 +5,7 @@ pipeline {
       slaveConnectTimeout 1000
       yaml '''
 apiVersion: v1
-kind: Pod
+kind: Deployment
 spec:
   hostAliases:
   - hostnames:
